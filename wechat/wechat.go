@@ -184,7 +184,7 @@ func FetchAccessToken(appID, appSecret, accessTokenFetchUrl string) (string, err
 	}
 }
 
-//万息后台绑定wx成功消息通知
+//后台绑定wx成功消息通知
 func Bind(wxID string, time string, phone string) error {
 
 	FirstData := "你好!欢迎使用万息律盈"
@@ -247,7 +247,7 @@ func Bind(wxID string, time string, phone string) error {
 	return err
 }
 
-//万息后台解绑wx成功消息通知
+//后台解绑wx成功消息通知
 func Remove(wxID string, time string, phone string) error {
 
 	FirstData := "你好，你先前绑定的账号已被解除。"
