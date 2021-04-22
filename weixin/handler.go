@@ -292,7 +292,7 @@ type PermQrcode struct {
 	URL    string `json:"url"`
 }
 
-//生成带参数二维码
+//生成带参数二维码（永久+字符串）
 func GetCode(c *gin.Context) {
 	code := e.SUCCESS
 	//向微信服务器获取权限code
@@ -307,7 +307,7 @@ func GetCode(c *gin.Context) {
 	userID := session.Get("userID").(string)
 
 	url := "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + accessToken
-
+	//定义请求结构消息体
 	var request struct {
 		ActionName string `json:"action_name"`
 		ActionInfo struct {
@@ -352,7 +352,7 @@ func GetCode(c *gin.Context) {
 	}
 
 	ticket := result.Ticket
-	//进行二维码链接的拼接
+	//进行二维码链接url的拼接
 	url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
