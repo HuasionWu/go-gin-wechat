@@ -138,7 +138,7 @@ type AccessTokenErrorResponse struct {
 	Errmsg  string
 }
 
-//获取accesstoken
+//获取 AccessToken 调用业务接口时需要
 func FetchAccessToken(appID, appSecret, accessTokenFetchUrl string) (string, error) {
 
 	requestLine := strings.Join([]string{accessTokenFetchUrl,

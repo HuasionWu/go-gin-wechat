@@ -152,7 +152,8 @@ func RedirectUrl(c *gin.Context) {
 
 //微信公众号服务器配置
 func ServeHTTP(c *gin.Context) {
-	const token = "huashengtoken"
+	//公众号对应的服务器token（自己设置的）
+	const token = "aaa"
 	signature := c.Query("signature")
 
 	timestamp := c.Query("timestamp")
