@@ -14,20 +14,17 @@ import (
 	"strings"
 )
 
-//向微信平台申请的权限token
 type Token struct {
-	AccessToken string `json:"access_token"` //token
-	ExpressIn   string `json:"express_in"`   //token过期时间
+	AccessToken string `json:"access_token"`
+	ExpressIn   string `json:"express_in"`
 }
 
-//自定义绑定事件的消息结构体
 type BindMessage struct {
 	Touser     string   `json:"touser"`
 	TemplateId string   `json:"template_id"`
 	Data       BindData `json:"data"`
 }
 
-//自定义绑定事件的消息结构体
 type BindData struct {
 	First    FormData `json:"first"`
 	Keyword1 FormData `json:"keyword1"`
@@ -37,25 +34,24 @@ type BindData struct {
 	Remark   FormData `json:"remark"`
 }
 
-//自定义绑定事件的消息结构体
 type FormData struct {
 	Value string `json:"value"`
 	Color string `json:"color"`
 }
 
-//wx模板消息推送
+//wx案源消息推送
 func Send(wxID string, phone string, appeal string, category string, time string) error {
-	FirstData := phone + "777"
+	FirstData := phone + "咨询了法律问题"
 
 	var bodyJson []byte
 
-	accessToken, _ := FetchAccessToken("aaa", "bbb", "https://api.weixin.qq.com/cgi-bin/token")
+	accessToken, _ := FetchAccessToken("wx21e84ec720ccf278", "ffb8358ca7cc576e351141860be2e185", "https://api.weixin.qq.com/cgi-bin/token")
 
 	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken
 
 	bm := BindMessage{
 		Touser:     wxID,
-		TemplateId: "777",
+		TemplateId: "OlPM6OmdNp5mkD7iH5fWzt2c0kSaB51K81eMVTDgFM4",
 		Data: BindData{
 			First: FormData{
 				Value: FirstData,
@@ -74,7 +70,7 @@ func Send(wxID string, phone string, appeal string, category string, time string
 				Color: "#173177",
 			},
 			Remark: FormData{
-				Value: "hello",
+				Value: "请尽快跟进",
 				Color: "#173177",
 			},
 		},
@@ -184,7 +180,7 @@ func FetchAccessToken(appID, appSecret, accessTokenFetchUrl string) (string, err
 	}
 }
 
-//后台绑定wx成功消息通知
+//万息后台绑定wx成功消息通知
 func Bind(wxID string, time string, phone string) error {
 
 	FirstData := "你好!欢迎使用万息律盈"
@@ -192,8 +188,7 @@ func Bind(wxID string, time string, phone string) error {
 
 	var bodyJson []byte
 
-	accessToken, _ := FetchAccessToken("aaa", "bbb", "https://api.weixin.qq.com/cgi-bin/token")
-
+	accessToken, _ := FetchAccessToken("wx21e84ec720ccf278", "ffb8358ca7cc576e351141860be2e185", "https://api.weixin.qq.com/cgi-bin/token")
 	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken
 	bm := BindMessage{
 		Touser:     wxID,
@@ -247,7 +242,7 @@ func Bind(wxID string, time string, phone string) error {
 	return err
 }
 
-//后台解绑wx成功消息通知
+//万息后台解绑wx成功消息通知
 func Remove(wxID string, time string, phone string) error {
 
 	FirstData := "你好，你先前绑定的账号已被解除。"
@@ -255,8 +250,7 @@ func Remove(wxID string, time string, phone string) error {
 
 	var bodyJson []byte
 
-	accessToken, _ := FetchAccessToken("aaa", "bbb", "https://api.weixin.qq.com/cgi-bin/token")
-
+	accessToken, _ := FetchAccessToken("wx21e84ec720ccf278", "ffb8358ca7cc576e351141860be2e185", "https://api.weixin.qq.com/cgi-bin/token")
 	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken
 	bm := BindMessage{
 		Touser:     wxID,
@@ -283,7 +277,6 @@ func Remove(wxID string, time string, phone string) error {
 
 	var err error
 	bodyJson, err = json.Marshal(bm)
-
 	if err != nil {
 		log.Error(err)
 		return errors.New("http post body to json failed")
