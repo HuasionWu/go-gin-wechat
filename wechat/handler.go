@@ -93,13 +93,13 @@ func CreateMenu(c *gin.Context) {
 		Buttons: []Button{
 			{
 				Type: "view",
-				Name: "万息手机端",
+				Name: "你好",
 				URL:  "https://ones.fagougou.com/base/wx/redirect",
 			},
 		},
 	}
-
-	accessToken, err := FetchAccessToken("wx21e84ec720ccf278", "ffb8358ca7cc576e351141860be2e185", "https://api.weixin.qq.com/cgi-bin/token")
+	//appID，appSecret为测试版公众号对应参数（填写自己的）
+	accessToken, err := FetchAccessToken("aaa", "bbb", "https://api.weixin.qq.com/cgi-bin/token")
 
 	url := "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + accessToken
 
@@ -145,12 +145,12 @@ func CreateMenu(c *gin.Context) {
 }
 
 func RedirectUrl(c *gin.Context) {
-	//微信公众号网页授权链接，用来做万息后台手机端的跳转
+	//微信公众号网页授权链接
 	url := "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21e84ec720ccf278&redirect_uri=https%3A%2F%2Fones.fagougou.com%2Fmobilelogin&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect"
 	c.Redirect(http.StatusMovedPermanently, url)
 }
 
-//微信公众号服务器配置 需启用和停用
+//微信公众号服务器配置
 func ServeHTTP(c *gin.Context) {
 	const token = "huashengtoken"
 	signature := c.Query("signature")
