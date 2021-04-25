@@ -10,7 +10,8 @@ var MsgFlags = map[int]string{
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT: "Token已超时",
 	ERROR_AUTH_TOKEN:               "Token生成失败",
 	ERROR_AUTH:                     "Token错误",
-	ERROR_LOGIN:                    "用户名或密码错误",
+	ERROR_JSON_FAIL:                "Json数据解析失败",
+	ERROR_TOJSON_FAIL:              "编码成Json数据失败",
 }
 
 func GetMsg(code int) string {

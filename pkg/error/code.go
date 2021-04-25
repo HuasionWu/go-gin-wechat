@@ -4,7 +4,6 @@ const (
 	SUCCESS        = 200
 	ERROR          = 500
 	INVALID_PARAMS = 400
-	ERROR_LOGIN    = 401
 
 	ERROR_EXIST_OBJECT     = 10001
 	ERROR_NOT_EXIST_OBJECT = 10002
@@ -13,4 +12,6 @@ const (
 	ERROR_AUTH_CHECK_TOKEN_TIMEOUT = 20002
 	ERROR_AUTH_TOKEN               = 20003
 	ERROR_AUTH                     = 20004
+	ERROR_JSON_FAIL                = 20005
+	ERROR_TOJSON_FAIL              = 20006
 )
