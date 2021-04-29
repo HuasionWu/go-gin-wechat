@@ -4,7 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	//"github.com/gin-gonic/contrib/sessions"
+	"go-gin-weixin/config"
+
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	e "go-gin-weixin/pkg/error"
@@ -56,7 +57,7 @@ type Menu struct {
 	MatchRule *MatchRule `json:"matchrule,omitempty"`
 	MenuId    int64      `json:"menuid,omitempty"` // 有个性化菜单时查询接口返回值包含这个字段
 }
-
+//自定义微信公众号菜单栏接口
 type MatchRule struct {
 	GroupId            string `json:"group_id,omitempty"`
 	Sex                string `json:"sex,omitempty"`
@@ -67,7 +68,7 @@ type MatchRule struct {
 	Language           string `json:"language,omitempty"`
 	TagId              string `json:"tag_id,omitempty"`
 }
-
+//自定义微信公众号菜单栏接口
 type Button struct {
 	Type       string   `json:"type,omitempty"`       // 非必须; 菜单的响应动作类型
 	Name       string   `json:"name,omitempty"`       // 必须;  菜单标题
@@ -94,12 +95,12 @@ func CreateMenu(c *gin.Context) {
 			{
 				Type: "view",
 				Name: "你好",
-				URL:  "https://ones.fagougou.com/base/wx/redirect",
+				URL:  "https://www.baidu.com/",
 			},
 		},
 	}
 	//appID，appSecret为测试版公众号对应参数（填写自己的）
-	accessToken, err := FetchAccessToken("aaa", "bbb", "https://api.weixin.qq.com/cgi-bin/token")
+	accessToken, err := FetchAccessToken(config.APP_ID, config.APP_SECRECT, "https://api.weixin.qq.com/cgi-bin/token")
 
 	url := "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + accessToken
 
@@ -144,11 +145,6 @@ func CreateMenu(c *gin.Context) {
 	})
 }
 
-func RedirectUrl(c *gin.Context) {
-	//微信公众号网页授权链接
-	url := "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx21e84ec720ccf278&redirect_uri=https%3A%2F%2Fones.fagougou.com%2Fmobilelogin&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect"
-	c.Redirect(http.StatusMovedPermanently, url)
-}
 
 //微信公众号服务器配置
 func ServeHTTP(c *gin.Context) {
@@ -175,7 +171,7 @@ func ServeHTTP(c *gin.Context) {
 func GetCode(c *gin.Context) {
 	code := e.SUCCESS
 	//向微信服务器获取权限code
-	accessToken, err := FetchAccessToken("wx266f49a71875db29", "9f0a1a3de5efa1f38610130ed1421ab3", "https://api.weixin.qq.com/cgi-bin/token")
+	accessToken, err := FetchAccessToken(config.APP_ID, config.APP_SECRECT, "https://api.weixin.qq.com/cgi-bin/token")
 
 	if err != nil {
 		fmt.Println("向微信服务器发送获取accessToken的get请求失败", err)
@@ -247,4 +243,28 @@ func GetCode(c *gin.Context) {
 			"link": url,
 		},
 	})
+}
+
+// WXMsgReceive 微信消息接收
+func WXMsgReceive(c *gin.Context) {
+
+
+	//解析微信服务器发过来的 xml 格式数据
+	var textMsg WXTextMsg
+	err := c.ShouldBindXML(&textMsg)
+
+	if err != nil {
+		log.Printf("[消息接收] - XML数据包解析失败: %v\n", err)
+		return
+	}
+
+
+
+	if len(textMsg.EventKey) > 0 && textMsg.Event == "subscribe" {
+
+
+	} else if len(textMsg.EventKey) > 0 && textMsg.Event == "SCAN" {
+
+	}
+
 }

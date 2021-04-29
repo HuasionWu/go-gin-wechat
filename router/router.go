@@ -13,8 +13,9 @@ func InitRouter(r *gin.Engine) {
 		GroupWx.GET("/message", wechat.ServeHTTP)
 		//微信公众号自定义菜单接口
 		GroupWx.GET("/menu", wechat.CreateMenu)
-
-		//微信公众号二维码生成接口
+		//生成带参数的二维码（微信公众号）
 		GroupWx.GET("/code", wechat.GetCode)
+		//微信公众号消息接收
+		GroupWx.POST("/wx/message", wechat.WXMsgReceive)
 	}
 }
