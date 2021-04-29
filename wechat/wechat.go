@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	log "github.com/sirupsen/logrus"
+	"go-gin-weixin/config"
 	"io/ioutil"
 	"net/http"
 	"sort"
@@ -133,6 +134,7 @@ type AccessTokenResponse struct {
 	AccessToken string  `json:"access_token"`
 	ExpiresIn   float64 `json:"expires_in"`
 }
+
 type AccessTokenErrorResponse struct {
 	Errcode float64
 	Errmsg  string
@@ -188,7 +190,7 @@ func Bind(wxID string, time string, phone string) error {
 
 	var bodyJson []byte
 
-	accessToken, _ := FetchAccessToken("wx21e84ec720ccf278", "ffb8358ca7cc576e351141860be2e185", "https://api.weixin.qq.com/cgi-bin/token")
+	accessToken, _ := FetchAccessToken(config.APP_ID, config.APP_SECRECT, "https://api.weixin.qq.com/cgi-bin/token")
 	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken
 	bm := BindMessage{
 		Touser:     wxID,
@@ -250,7 +252,7 @@ func Remove(wxID string, time string, phone string) error {
 
 	var bodyJson []byte
 
-	accessToken, _ := FetchAccessToken("wx21e84ec720ccf278", "ffb8358ca7cc576e351141860be2e185", "https://api.weixin.qq.com/cgi-bin/token")
+	accessToken, _ := FetchAccessToken(config.APP_ID, config.APP_SECRECT, "https://api.weixin.qq.com/cgi-bin/token")
 	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken
 	bm := BindMessage{
 		Touser:     wxID,
