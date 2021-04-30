@@ -40,72 +40,6 @@ type FormData struct {
 	Color string `json:"color"`
 }
 
-//wx案源消息推送
-func Send(wxID string, phone string, appeal string, category string, time string) error {
-	FirstData := phone + "咨询了法律问题"
-
-	var bodyJson []byte
-
-	accessToken, _ := FetchAccessToken("wx21e84ec720ccf278", "ffb8358ca7cc576e351141860be2e185", "https://api.weixin.qq.com/cgi-bin/token")
-
-	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken
-
-	bm := BindMessage{
-		Touser:     wxID,
-		TemplateId: "OlPM6OmdNp5mkD7iH5fWzt2c0kSaB51K81eMVTDgFM4",
-		Data: BindData{
-			First: FormData{
-				Value: FirstData,
-				Color: "#173177",
-			},
-			Keyword1: FormData{
-				Value: category,
-				Color: "#173177",
-			},
-			Keyword2: FormData{
-				Value: appeal,
-				Color: "#173177",
-			},
-			Keyword3: FormData{
-				Value: time,
-				Color: "#173177",
-			},
-			Remark: FormData{
-				Value: "请尽快跟进",
-				Color: "#173177",
-			},
-		},
-	}
-
-	var err error
-	bodyJson, err = json.Marshal(bm)
-	if err != nil {
-		log.Error(err)
-		return errors.New("http post body to json failed")
-	}
-
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(bodyJson))
-	if err != nil {
-		log.Error(err)
-		return errors.New("new request is fail: %v \n")
-	}
-	req.Header.Set("Content-type", "application/json")
-
-	//http client
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Error(err)
-		return errors.New("response is fail: %v \n")
-	}
-	defer resp.Body.Close()
-
-	respbody, err := ioutil.ReadAll(resp.Body)
-	log.Println(string(respbody), err)
-
-	return err
-}
-
 // CheckSignature 微信公众号签名检查
 func CheckSignature(signature, timestamp, nonce, token string) bool {
 	arr := []string{timestamp, nonce, token}
@@ -182,11 +116,11 @@ func FetchAccessToken(appID, appSecret, accessTokenFetchUrl string) (string, err
 	}
 }
 
-//模板消息通知
-func Bind(wxID string, time string, phone string) error {
+//模板消息推送
+func Model(wxID string, time string, phone string) error {
 
 	FirstData := "你好!欢迎使用微信公众号测试版"
-	RemarkData := "绑定时间：" + time
+	RemarkData := "时间：" + time
 
 	var bodyJson []byte
 
@@ -205,69 +139,7 @@ func Bind(wxID string, time string, phone string) error {
 				Color: "#173177",
 			},
 			Keyword2: FormData{
-				Value: "绑定成功",
-				Color: "#173177",
-			},
-			Remark: FormData{
-				Value: RemarkData,
-				Color: "#173177",
-			},
-		},
-	}
-
-	var err error
-	bodyJson, err = json.Marshal(bm)
-	if err != nil {
-		log.Error(err)
-		return errors.New("http post body to json failed")
-	}
-
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(bodyJson))
-	if err != nil {
-		log.Error(err)
-		return errors.New("new request is fail: %v \n")
-	}
-	req.Header.Set("Content-type", "application/json")
-
-	//http client
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Error(err)
-		return errors.New("response is fail: %v \n")
-	}
-	defer resp.Body.Close()
-
-	respbody, err := ioutil.ReadAll(resp.Body)
-	log.Println(string(respbody), err)
-
-	return err
-}
-
-//模板消息通知
-func Remove(wxID string, time string, phone string) error {
-
-	FirstData := "你好，你先前绑定的账号已被解除。"
-	RemarkData := "如有需要可重新绑定"
-
-	var bodyJson []byte
-
-	accessToken, _ := FetchAccessToken(config.APP_ID, config.APP_SECRECT, "https://api.weixin.qq.com/cgi-bin/token")
-	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken
-	bm := BindMessage{
-		Touser:     wxID,
-		TemplateId: "794fN2L3qyiEmIZiOctObP67I28psLNuLmC1xWJXkMk",
-		Data: BindData{
-			First: FormData{
-				Value: FirstData,
-				Color: "#173177",
-			},
-			Keyword1: FormData{
-				Value: phone,
-				Color: "#173177",
-			},
-			Keyword2: FormData{
-				Value: time,
+				Value: "aaa",
 				Color: "#173177",
 			},
 			Remark: FormData{
