@@ -20,11 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8382deb-1926-4dd2-8a9e-58ecffcaa97c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/router.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wechat/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/wechat/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wechat/wechat.go" beforeDir="false" afterPath="$PROJECT_DIR$/wechat/wechat.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,11 +45,13 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../fagougou/wechat" />
+    <property name="settings.editor.selected.configurable" value="watcher.settings" />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
@@ -76,11 +77,15 @@
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1619149389599" />
     <state x="2606" y="211" key="FileChooserDialogImpl/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1619675745303" />
-    <state x="2582" y="254" width="596" height="532" key="find.popup" timestamp="1619667191332">
+    <state x="2381" y="164" key="SettingsEditor" timestamp="1619685785483">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2381" y="164" key="SettingsEditor/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1619685785483" />
+    <state x="2582" y="254" width="596" height="532" key="find.popup" timestamp="1619684832181">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2450" y="105" width="570" height="532" key="find.popup/0.0.1536.824/1920.-120.1536.920@1920.-120.1536.920" timestamp="1619366012206" />
-    <state x="2582" y="254" width="596" height="532" key="find.popup/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1619667191332" />
+    <state x="2582" y="254" width="596" height="532" key="find.popup/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1619684832181" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
