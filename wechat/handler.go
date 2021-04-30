@@ -264,14 +264,16 @@ func WXMsgReceive(c *gin.Context) {
 	}
 	//关注事件
 	if textMsg.Event == "subscribe" {
-		//获取二维码参数
+		//获取二维码参数scene
 		if len(textMsg.EventKey) > 0 {
 			const prefix = "qrscene_"
 			scene := textMsg.EventKey[len(prefix):]
 			log.Printf(scene)
 		}
 
+		log.Printf(textMsg.ToUserName, textMsg.FromUserName, newFormat)
 		WXMsgReply(c, textMsg.ToUserName, textMsg.FromUserName, newFormat)
+
 		if err != nil {
 			errcode = e.INVALID_PARAMS
 			c.JSON(http.StatusOK, gin.H{
@@ -282,10 +284,12 @@ func WXMsgReceive(c *gin.Context) {
 		}
 
 	} else if textMsg.Event == "SCAN" { //用户已关注，扫描带参数二维码事件
+		//获取二维码参数scene
 		if len(textMsg.EventKey) > 0 {
 			scene := textMsg.EventKey
 			log.Printf(scene)
 		}
+		log.Printf(textMsg.ToUserName, textMsg.FromUserName, newFormat)
 
 	}
 
