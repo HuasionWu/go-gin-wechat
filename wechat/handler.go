@@ -3,8 +3,10 @@ package wechat
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"go-gin-weixin/config"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -57,6 +59,7 @@ type Menu struct {
 	MatchRule *MatchRule `json:"matchrule,omitempty"`
 	MenuId    int64      `json:"menuid,omitempty"` // 有个性化菜单时查询接口返回值包含这个字段
 }
+
 //自定义微信公众号菜单栏接口
 type MatchRule struct {
 	GroupId            string `json:"group_id,omitempty"`
@@ -68,6 +71,7 @@ type MatchRule struct {
 	Language           string `json:"language,omitempty"`
 	TagId              string `json:"tag_id,omitempty"`
 }
+
 //自定义微信公众号菜单栏接口
 type Button struct {
 	Type       string   `json:"type,omitempty"`       // 非必须; 菜单的响应动作类型
@@ -145,11 +149,10 @@ func CreateMenu(c *gin.Context) {
 	})
 }
 
-
 //微信公众号服务器配置
 func ServeHTTP(c *gin.Context) {
 	//公众号对应的服务器token（自己设置的）
-	const token = "aaa"
+	const token = "huashengtoken"
 	signature := c.Query("signature")
 
 	timestamp := c.Query("timestamp")
@@ -247,7 +250,9 @@ func GetCode(c *gin.Context) {
 
 // WXMsgReceive 微信消息接收
 func WXMsgReceive(c *gin.Context) {
-
+	currentTime := time.Now().Local()
+	newFormat := currentTime.Format("2006-01-02 15:04")
+	errcode := e.SUCCESS
 
 	//解析微信服务器发过来的 xml 格式数据
 	var textMsg WXTextMsg
@@ -257,14 +262,61 @@ func WXMsgReceive(c *gin.Context) {
 		log.Printf("[消息接收] - XML数据包解析失败: %v\n", err)
 		return
 	}
+	//关注事件
+	if textMsg.Event == "subscribe" {
+		//获取二维码参数
+		if len(textMsg.EventKey) > 0 {
+			const prefix = "qrscene_"
+			scene := textMsg.EventKey[len(prefix):]
+			log.Printf(scene)
+		}
 
+		WXMsgReply(c, textMsg.ToUserName, textMsg.FromUserName, newFormat)
+		if err != nil {
+			errcode = e.INVALID_PARAMS
+			c.JSON(http.StatusOK, gin.H{
+				"code": errcode,
+				"msg":  e.GetMsg(errcode),
+			})
+			return
+		}
 
-
-	if len(textMsg.EventKey) > 0 && textMsg.Event == "subscribe" {
-
-
-	} else if len(textMsg.EventKey) > 0 && textMsg.Event == "SCAN" {
+	} else if textMsg.Event == "SCAN" { //用户已关注，扫描带参数二维码事件
+		if len(textMsg.EventKey) > 0 {
+			scene := textMsg.EventKey
+			log.Printf(scene)
+		}
 
 	}
 
+}
+
+// WXRepTextMsg 微信回复文本消息结构体
+type WXRepTextMsg struct {
+	ToUserName   string
+	FromUserName string
+	CreateTime   string
+	MsgType      string
+	Content      string
+	// 若不标记XMLName, 则解析后的xml名为该结构体的名称
+	XMLName xml.Name `xml:"xml"`
+}
+
+//微信公众号被动消息回复
+func WXMsgReply(c *gin.Context, fromUser, toUser string, time string) {
+	repTextMsg := WXRepTextMsg{
+		ToUserName:   toUser,
+		FromUserName: fromUser,
+		CreateTime:   time,
+		MsgType:      "text",
+		Content:      "谢谢你这么好看还关注我",
+	}
+
+	msg, err := xml.Marshal(&repTextMsg)
+	if err != nil {
+		log.Printf("[消息回复] - 将对象进行XML编码出错: %v\n", err)
+		return
+	}
+	_, err = c.Writer.Write(msg)
+	return
 }
