@@ -1,6 +1,7 @@
 package config
 
 const (
+	//项目启动端口
 	PORT = ":80"
 	//log文件存放地址
 	Log_FILE_PATH = "/Users/huasheng/go/logs"
