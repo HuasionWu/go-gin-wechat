@@ -16,7 +16,7 @@ import (
 	_ "time"
 )
 
-//微信返回的 ticket + url
+// PermQrcode 微信返回的 ticket + url
 type PermQrcode struct {
 	Ticket string `json:"ticket"`
 	URL    string `json:"url"`
@@ -53,14 +53,14 @@ type WXTextMsg struct {
 	MenuId int64 `xml:"MenuId" json:"MenuId"`
 }
 
-//自定义微信公众号菜单栏接口
+// Menu 自定义微信公众号菜单栏接口
 type Menu struct {
 	Buttons   []Button   `json:"button,omitempty"`
 	MatchRule *MatchRule `json:"matchrule,omitempty"`
 	MenuId    int64      `json:"menuid,omitempty"` // 有个性化菜单时查询接口返回值包含这个字段
 }
 
-//自定义微信公众号菜单栏接口
+// MatchRule 自定义微信公众号菜单栏接口
 type MatchRule struct {
 	GroupId            string `json:"group_id,omitempty"`
 	Sex                string `json:"sex,omitempty"`
@@ -72,7 +72,7 @@ type MatchRule struct {
 	TagId              string `json:"tag_id,omitempty"`
 }
 
-//自定义微信公众号菜单栏接口
+// Button 自定义微信公众号菜单栏接口
 type Button struct {
 	Type       string   `json:"type,omitempty"`       // 非必须; 菜单的响应动作类型
 	Name       string   `json:"name,omitempty"`       // 必须;  菜单标题
@@ -149,7 +149,7 @@ func CreateMenu(c *gin.Context) {
 	})
 }
 
-//微信公众号服务器配置
+// ServeHTTP 微信公众号服务器配置
 func ServeHTTP(c *gin.Context) {
 	//公众号对应的服务器token（自己设置的）
 	const token = "huashengtoken"
@@ -170,7 +170,7 @@ func ServeHTTP(c *gin.Context) {
 
 }
 
-//生成带参数二维码
+// GetCode 生成带参数二维码
 func GetCode(c *gin.Context) {
 	code := e.SUCCESS
 	//向微信服务器获取权限code
@@ -306,7 +306,7 @@ type WXRepTextMsg struct {
 	XMLName xml.Name `xml:"xml"`
 }
 
-//微信公众号被动消息回复
+// WXMsgReply 微信公众号被动消息回复
 func WXMsgReply(c *gin.Context, fromUser, toUser string, time string) {
 	repTextMsg := WXRepTextMsg{
 		ToUserName:   toUser,

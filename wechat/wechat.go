@@ -57,7 +57,7 @@ func CheckSignature(signature, timestamp, nonce, token string) bool {
 	return Sha1(b.String()) == signature
 }
 
-// 进行Sha1编码
+// Sha1 进行Sha1编码
 func Sha1(str string) string {
 	h := sha1.New()
 	h.Write([]byte(str))
@@ -74,7 +74,7 @@ type AccessTokenErrorResponse struct {
 	Errmsg  string
 }
 
-//获取 AccessToken 调用业务接口时需要
+// FetchAccessToken 获取 AccessToken 调用业务接口时需要
 func FetchAccessToken(appID, appSecret, accessTokenFetchUrl string) (string, error) {
 
 	requestLine := strings.Join([]string{accessTokenFetchUrl,
@@ -116,7 +116,7 @@ func FetchAccessToken(appID, appSecret, accessTokenFetchUrl string) (string, err
 	}
 }
 
-//模板消息推送
+// Model 模板消息推送
 func Model(wxID string, time string, phone string) error {
 
 	FirstData := "你好!欢迎使用微信公众号测试版"
